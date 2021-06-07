@@ -6,60 +6,53 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class TargetNumber43165 {
-	
-	private static int[] DP;
+
 	private static int[] input;
+	private static int len;
 	private static int tarNum;
 	private static int cnt = 0;
 	
-	public static void main(String[] args) throws IOException {
-	
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		
-		//ÀÓ½Ã·Î ±æÀÌ 5 ¼³Á¤
+		//ì„ì‹œë¡œ ê¸¸ì´ 5 ì„¤ì •
 		input = new int[5];
-		DP = new int[5];
 
-		for(int i=0; i<input.length; i++) {
+		len = input.length;
+		
+		for(int i=0; i<len; i++) {
 			input[i] = Integer.parseInt(st.nextToken());
 		}
 		
 		tarNum = Integer.parseInt(br.readLine());
 		
-		DP[0] = input[0];
-		recur(4);
-		
-		System.out.println(" ------------------------- ");
-		DP[0] = -input[0];
-		recur(4);
+		cal(0, 0);
 		
 		System.out.println(cnt);
 	}
 	
-	static int recur(int n) {
-		System.out.println("recur(" + n + ")");
-		if(n == input.length) {
-			return 0;
-		}
-		if(n == 0) {
-			return DP[0];
-		}
-		if(DP[n] == 0) {
-			DP[n] = recur(n-1) + input[n];
-			DP[n] = 0;
-			//DP[1] = 2ÀÌ Ã³À½¿¡ µÇ´Âµ¥, ±× ´ÙÀ½¿¡ ¹Ù·Î DP[1] = 0 À¸·Î °¥¾ÆÄ¡¿öÁü
-			//°í·Î ÀÌ·¸°Ô °è»êÇÏ¸é ¾ÈµÊ ¸ÛÃ»¾Æ 
-			System.out.println("±¸ºĞ ");
-			DP[n] = recur(n-1) - input[n];
-			
+	static void cal(int idx, int val) {
+//		System.out.println("cal(" + idx + ", " + val + ")");
+		if(idx >= len) {
+			if(val == tarNum) {
+				cnt++;
+			}
+			return;
 		}
 		
-		if(DP[n] == tarNum) {
-			cnt++;
-		}
-
-		System.out.println("DP[" + n + "] = " + DP[n]);
-		return DP[n];
+		int newVal = val + input[idx];
+		int newVal2 = val - input[idx];
+		
+		cal(idx+1, newVal);
+		cal(idx+1, newVal2);
+		
+		return;
+		
 	}
+	
+	// ì´ë ‡ê²Œ ì•ˆí•˜ê³ , val==tarNumì¼ ë–„ return 1, ì•„ë‹ ë–„ return 0 í•´ì„œ countë¥¼ ëŠ˜ë ¤ì¤„ ìˆ˜ ìˆìŒ. 
+	// ê·¸ë¦¬ê³  cal ë©”ì„œë“œëŠ” int ë°˜í™˜ìœ¼ë¡œ í•´ì„œ return cal1 + cal2 ë¡œ ê°€ëŠ¥
+	
 }

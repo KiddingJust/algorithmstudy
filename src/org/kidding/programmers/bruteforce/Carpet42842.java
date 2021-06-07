@@ -15,7 +15,7 @@ public class Carpet42842 {
 		int col = 0;
 		for(int i=1; i*i<=y; i++) {
 			if(y%i == 0) {
-				row = y/i; 		// i°¡ yÀÇ ¾à¼öÀÌ¸é, i * row = y
+				row = y/i; 		// iê°€ yì˜ ì•½ìˆ˜ì´ë©´, i * row = y
 				if((row+2)*2 + i*2 == b) {
 					row += 2;
 					col = i+2;
@@ -31,3 +31,7 @@ public class Carpet42842 {
 		
 	}
 }
+
+
+
+
