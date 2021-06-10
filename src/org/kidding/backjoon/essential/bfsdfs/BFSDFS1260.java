@@ -1,4 +1,4 @@
-package org.kidding.backhoon.essential.bfsdfs;
+package org.kidding.backjoon.essential.bfsdfs;
 
 import java.io.BufferedReader;
 import java.io.IOException;
