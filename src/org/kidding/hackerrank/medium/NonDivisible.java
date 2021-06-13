@@ -39,12 +39,22 @@ public class NonDivisible {
 //		 }
 		 int answer = 0;
 		 if(sRemain[0] != 0) {
-			 answer ++;
+			 answer++;
 		 }
 		 for(int j=1; j<=k/2; j++) {
+//			 System.out.println("j: " + j + ", k-j: " + (k-j));
+			 if(j == k-j) {
+				 answer++;
+				 continue;
+			 }
+//			 System.out.println("sRemain["+j+"]: " + sRemain[j]);
+//			 System.out.println("sRemain["+(k-j)+"]: " + sRemain[k-j]);
 			 answer += Math.max(sRemain[j], sRemain[k-j]);
+			 
+			 System.out.println(answer);
 		 }
 		 
+		 System.out.println(answer);
 		 
 		 
 		 
