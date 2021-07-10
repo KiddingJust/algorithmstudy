@@ -22,6 +22,9 @@ public class StaticClass {
 		int answer2= dfs(test2);
 	}
 	
+	//파라미터로 넘긴 것의 값도 변경된다!!! 음... int[][] test 값 변화. 
+	//파라미터에 들어가는 변수 이름이 main methods에서 선언해준 변수 이름이어도 문제 X
+	//main methods에서 호출 시 전달한 파라미터가 그대로 변수로 들어감. 
 	static int dfs(int[][] test2) {
 		System.out.println("dfs 호출");
 		if(test2[0][1] == 5) {
