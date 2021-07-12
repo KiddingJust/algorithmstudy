@@ -29,7 +29,7 @@ public class PriorityQueueEx {
 		
 		while(!testEdge.isEmpty()) {
 			Edge edge = testEdge.poll();
-			System.out.println("num: " + edge.destination + ", distance: " + edge.weight);
+			System.out.println("destination: " + edge.destination + ", weight: " + edge.weight);
 		}
 		
 	}
