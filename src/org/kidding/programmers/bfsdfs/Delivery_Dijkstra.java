@@ -11,42 +11,44 @@ import java.util.PriorityQueue;
 //아 왜 여기서 toCost는 앞의 adj와 같이 전체 초기화가 안되냐!!!!!!
 public class Delivery_Dijkstra {
 
-	static int[][] road = {{1, 2, 1}, {2, 3, 3}, {5, 2, 2}, {1, 4, 2}, {5, 3, 1}, {5, 4, 2}};
-	static int N = 5;
-	static int K = 3; 
-	static int result = 4;
+//	static int[][] road = {{1, 2, 1}, {2, 3, 3}, {5, 2, 2}, {1, 4, 2}, {5, 3, 1}, {5, 4, 2}};
+//	static int N = 5;
+//	static int K = 3; 
+	static int[][] road = {{1, 2, 1}, {1, 3, 2}, {2, 3, 2}, {3, 4, 3}, {3, 5, 2}, {3, 5, 3}, {5, 6, 1}};
+	static int N = 6;
+	static int K = 4; 
 	static ArrayList<ArrayList<Edge>> toCost;	//각 거리 저장
-	static int[] d = new int[6];	//1번 마을로부터의 거리 저장
+	static int[] d = new int[N+1];	//1번 마을로부터의 거리 저장
 	static int INF = 1000000;
 	
 	public static void main(String[] args) {
 		
 		toCost = new ArrayList<ArrayList<Edge>>();	
 		//이거 초기화 하는 이유는 무엇?? 
-        for(int i = 0 ; i < road.length ; i++) {
-        	toCost.add(new ArrayList<>());
-        };
+        for(int i = 0 ; i < road.length ; i++) toCost.add(new ArrayList<>());
         
 		for(int i=0; i<road.length; i++) {
 			int from = road[i][0];
 			int to = road[i][1];
 			int dist = road[i][2];
 			toCost.get(from).add(new Edge(to, dist));
-//			toCost.get(i).set(to, new Edge(to, dist));	이거 안되는 이유는? add vs set 
+			toCost.get(to).add(new Edge(from, dist));
 		}
-		
-        for(int i=0; i<toCost.size(); i++) {
-        	System.out.println(toCost.get(i).toString());
-        }
-        
+//        for(int i=0; i<toCost.size(); i++) {
+//        	System.out.println(toCost.get(i).toString());
+//        }
 		//거리는 무한대로 초기화. 
 		Arrays.fill(d, INF);
 
 		dijkstra(1);
 		
-		for(int i=0; i<N; i++) {
-			System.out.println(d[i]);
+		int answer = 0;
+		for(int i=1; i<d.length; i++) {
+			if(d[i] <= K) {
+				answer++;
+			}
 		}
+		System.out.println(answer);
 	}
 	
 	static void dijkstra(int start) {
@@ -57,23 +59,19 @@ public class Delivery_Dijkstra {
 			Edge edge = pq.poll();
 			int current = edge.to;
 			int dist = edge.distance;
-			System.out.println("current: " + current  + " dist: " + dist);
 			
-			//toCost.get(current)의 사이즈로 하는 이유는?
-			System.out.println("size check: " + toCost.get(current).size());
+			//만약 current까지의 distance가 기존에 계산한 distance보다 크다면 계산 필요 X. 
+			if(d[current] < dist) continue;
+			//current 마을과 연결된 마을의 갯수(size) 체크 
 			for(int i=0; i<toCost.get(current).size(); i++) {
-				//current에서 i까지의 거리(비용) 계산
+				//current에서 i 인덱스의 to까지의 거리(비용) 계산
 				int cost = toCost.get(current).get(i).distance;
-				System.out.println("cost: " + cost);
-				//0에서 i까지의 거리 vs 0부터 current까지 온 거리(dist) + current에서 i까지의 거리;
-				if(d[i] > dist + cost) {
-					d[i] = dist+cost;
+				//0에서 toCost.get(current).get(i).to까지의 거리 vs 0부터 current까지 온 거리(dist) + current에서toCost.get(current).get(i).to까지의 거리;
+				if(d[toCost.get(current).get(i).to] > dist + cost) {
+					d[toCost.get(current).get(i).to] = dist+cost;
 					//i까지의 거리는 dis+cost 이므로, 여기부터 다시 탐색해볼 수 있도록 큐에 저장. 
-					pq.offer(new Edge(i, dist+cost));
+					pq.offer(new Edge(toCost.get(current).get(i).to, dist+cost));
 				}
-				
-				
-				
 			}
 			
 			
@@ -100,7 +98,7 @@ class Edge implements Comparable<Edge>{
 	
 	@Override
 	public String toString() {
-		return to + "," + distance + "";
+		return to + ":" + distance + "";
 	}
 	
 }
