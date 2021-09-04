@@ -24,6 +24,8 @@ public class PermMissingElem {
         List<Integer> answer = new ArrayList<>(hs);
         return answer.get(0);
         
+        
+        
         //지리는 정답. 
 		int[] counters = new int[A.length+2];
 		for (int i = 0; i < A.length; i++) {
