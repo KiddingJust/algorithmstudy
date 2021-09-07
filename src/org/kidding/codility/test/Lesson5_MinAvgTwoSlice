@@ -1,0 +1,60 @@
+package org.kidding.codility.test;
+
+public class codility {
+
+	public static void main(String[] args) {
+		
+		//참고: https://cheolhojung.github.io/posts/algorithm/Codility-MinAvgTwoSlice.html 
+		//3,4,5,6  --> 2개씩: 3.5 5.5 4개: 4.5 
+		//즉 4개를 2개로 나누어서 각각 평균 재면 하나는 평균보다 크고 하나는 작을 수밖에 없음. 
+		//고로 4개짜리는 고민할 필요가 없어짐. 
+		//원소가 3개인 경우 1개&2개 그룹을 비교해야하지만 1개 그룹은 없으므로,
+		//전체를 봐도 2개, 3개만 고민해주면 됨. 
+	
+		int[] A = new int[5];
+        //0<= P<=Q < N // 2개 이상의 원소 포함
+        // A[P] ~ A[Q] 까지의 합을 갯수로 나눈 것. 
+        // 평균이 최소가 되는 slice의 starting 찾기.. 
+        // 일반적인 방법은 갯수 1개씩 늘려가면서 평균 찾아서 min값 구해주기
+        // 2개일 땐, 
+        // 일반적인 방법부터 해볼까 그냥...?
+        //4, 6, 8, 13, 14, 19 하면서 나누기.. 음...? 
+        //0인덱스부터 시작할 때, 1 인덱스부터 시작할 떄, .... A-2 인덱스부터..
+        double minNum = Integer.MAX_VALUE;
+        int minIdx = 0;
+        for(int i=0; i<A.length-1; i++){
+            double temp = dfs(A, i);
+            if(temp < minNum){
+                minNum = temp;
+                minIdx = i;
+            }
+        }
+        return minIdx;
+    }
+
+    static double dfs(int[] A, int start){
+        // System.out.println("start: " + start);
+        double[] arr = new double[A.length];
+        int divNum = 2;
+        //0, 1 / 0, 1, 2 / 0, 1, 2, 3
+        while(start+divNum<=A.length){
+            int sum = 0;
+            for(int j=start; j<divNum+start; j++){
+                sum += A[j];               
+            }
+            arr[start+divNum-1] = (double) sum/divNum;
+            divNum++;
+        }
+
+        double minNumInArr = Integer.MAX_VALUE;
+        
+        //min Num 추출하기
+        for(int i=start+1; i<A.length; i++){
+            if(arr[i] < minNumInArr){
+                minNumInArr = arr[i];
+            }
+        }
+
+        return minNumInArr;
+    }
+}
