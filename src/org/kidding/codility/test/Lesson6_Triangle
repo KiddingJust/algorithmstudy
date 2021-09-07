@@ -1,4 +1,4 @@
-package com.rotos.api.algorithm;
+package org.kidding.codility.test;
 
 public class Lessen6_Triangle {
 
